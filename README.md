@@ -1,12 +1,12 @@
-# The Sentinel Ledger Project
+# Pizzaggedon: Kitchen Simulator
 
-A fast and incorruptible payment processing engine. Intended to be able to support a huge amount of requests; and at the same time, to guarantee no transaction can be altered without leaving a fingerprint.
+A high-concurrency microservice intended to demonstrate how to manage limited resources against massive demand. 
 
 ## The Big Picture
-Three services that talk to each other:
+The system is composed of two main components and an observability layer:
 
-- **The Server:**  The main app, receives the money transfers and saves them into a database
-- **The Blitz:**   A script that floods the server with thousands of requests to test its endurance.
-- **The Auditor:** A detective script that scans the database and finds out if it has been corrupted.
+- **The Kitchen:** Receives orders via **gRPC**, pushes them to a *ticket rail*, and assigns them to a *worker pool*. Uses *PostgreSQL*.
+- **The Blitz:**   A script that floods the server with thousands of requests to test its endurance and correctness despite a gazillion of concurrent orders.
+- **The Watchtower:** Follows good observability standards by using *OpenTelemetry* and *Grafana*.
 
 ***  
