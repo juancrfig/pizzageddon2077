@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:18
+    container_name: pizzaggedon-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: pizzaggedon
+      POSTGRES_USER: pizzaggedon
+      POSTGRES_PASSWORD: chaos2077
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./data/pg:/var/lib/postgresql/data  # Persist
+      - ./migrations:/docker-entrypoint-initdb.d:ro  # Auto-run schema.sql/seed.sql on first boot
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U pizzaggedon -d pizzaggedon"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  grafana:
+    image: grafana/grafana:latest 
+    container_name: pizzaggedon-grafana
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./data/grafana:/var/lib/grafana
+      - ./grafana/provisioning/datasources:/etc/grafana/provisioning/datasources:ro
+      - ./grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards:ro
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: admin
+      GF_USERS_ALLOW_SIGN_UP: false
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "wget --quiet --tries=1 --spider http://admin:admin@localhost:3000/api/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
