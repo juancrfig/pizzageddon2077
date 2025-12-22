@@ -1,5 +1,5 @@
 networks:            # Docker automatically creates a network, but I choose to do it explicitly so I can give it a name and choose the driver
-  pizzaggedon-net:
+  pizzageddon-net:
     driver: bridge   # Basically, 'bridge' is a type of virtual network with some rules such as: containers can talk to each other, to the host, to the Internet, 
                      # but the outside world cannot communicate with the containers unless we open their ports
 volumes:
@@ -12,7 +12,7 @@ services:
     image: postgres:17-alpine      # Latest stable version
     restart: always                # Docker has to attempt to keep running this service no matter what 
     environment:
-      POSTGRES_DB: pizzaggedon
+      POSTGRES_DB: pizzageddon
       POSTGRES_USER: user
       POSTGRES_PASSWORD: chaos2077
     ports:
@@ -22,7 +22,7 @@ services:
       - ./db/migrations/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql
       - ./db/migrations/seed.sql:/docker-entrypoint-initdb.d/02-seed.sql
     networks:
-      - pizzaggedon-net  # Attach the postgres service to this network 
+      - pizzageddon-net  # Attach the postgres service to this network 
     healthcheck:         # How Docker makes sure the service is doing is job, and not just running with certain failure
       test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
       interval: 10s
@@ -43,7 +43,7 @@ services:
       - grafana-data:/var/lib/grafana
       - ./grafana/provisioning:/etc/grafana/provisioning
     networks:
-      - pizzaggedon-net
+      - pizzageddon-net
     depends_on:
       postgres:
         condition: service_healthy
@@ -62,16 +62,14 @@ services:
     environment:
       DB_HOST: postgres
       DB_PORT: 5432
-      DB_NAME: pizzaggedon
+      DB_NAME: pizzageddon
       DB_USER: user
       DB_PASSWORD: chaos2077
       GRPC_PORT: 50051
     ports:
       - "50051:50051"
-    volumes:
-      - .:/app
     networks:
-      - pizzaggedon-net
+      - pizzageddon-net
     depends_on:
       postgres:
         condition: service_healthy
@@ -86,6 +84,6 @@ services:
       ORDERS: ${ORDERS:-1000}
       DURATION: ${DURATION:-60s}
     networks:
-      - pizzaggedon-net
+      - pizzageddon-net
     depends_on:
       - kitchen

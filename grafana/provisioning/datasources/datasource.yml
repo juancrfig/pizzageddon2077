@@ -8,6 +8,6 @@ datasources:
     secureJsonData:
       password: chaos2077
     jsonData:
-      database: pizzaggedon
+      database: pizzageddon
       sslmode: disable  # For local
     isDefault: true

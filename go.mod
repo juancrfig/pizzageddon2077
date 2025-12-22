@@ -1,3 +1,3 @@
-module github.com/juancrfig/pizzaggedon
+module github.com/juancrfig/pizzageddon
 
 go 1.25.5

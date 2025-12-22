@@ -1,4 +1,4 @@
-# Pizzaggedon 2077: Kitchen Simulator
+# Pizzageddon 2077: Kitchen Simulator
 ![Logo](./docs/banner.jpg)
 
 A high-concurrency microservice intended to demonstrate how to manage limited resources against a massive demand of starving citizens. 
