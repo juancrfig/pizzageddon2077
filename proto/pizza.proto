@@ -1,0 +1,26 @@
+syntax = "proto3";    // Last version of Protobuf
+
+package pizza;
+
+option go_package = "github.com/juancrfig/pizzageddon/proto/pizza";
+
+
+// The Service: This part defines the action that the 'Kitchen' can execute
+service KitchenService {
+  // A client sends a 'SubmitOrderRequest' and gets back a 'SubmitOrderResponse'
+  rpc SubmitOrder (SubmitOrderRequest) returns (SubmitOrderResponse);
+}
+
+// The Request: What the 'Blitz' has to send to place an order correctly
+message SubmitOrderRequest {
+  string trace_id = 1;
+  int32  pizza_id = 2;
+  int32  customer_id = 3;
+}
+
+// The Response: What the 'Kitchen' sends back
+message SubmitOrderResponse {
+  string order_id = 1;
+  string status = 2;
+  string msg = 3;
+}
