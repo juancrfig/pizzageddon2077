@@ -10,4 +10,11 @@ The system is composed of two main components and an observability layer:
 - **The Blitz:**   A script that floods the server with thousands of requests to test its endurance and correctness despite a gazillion of concurrent orders.
 - **The Watchtower:** Follows good observability standards by using *OpenTelemetry* and *Grafana*.
 
-***  
+***
+
+### Documentation 
+
+- [Thoughts while designing the Database](./docs/dbDesign.md)
+- [Hexagonal Architecture: research and planning](./docs/architecture.md)
+
+***
