@@ -1,0 +1,13 @@
+apiVersion: 1
+datasources:
+  - name: PostgreSQL
+    type: postgres
+    access: proxy
+    url: postgres:5432
+    user: user
+    secureJsonData:
+      password: chaos2077
+    jsonData:
+      database: pizzaggedon
+      sslmode: disable  # For local
+    isDefault: true
