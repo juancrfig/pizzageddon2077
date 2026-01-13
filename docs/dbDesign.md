@@ -11,10 +11,7 @@ so I can gain a better understanding on its capabilities.
 There arguments in favor of using `VARCHAR` because it'd make the project more portable, given that `ENUM` is not standard `SQL`, but since this 
 project is intended to make the most of `PostgreSQL` concurrent capabilities, portability loses importance.
 
-Other argument against `ENUM` is that `PostgreSQL` internally stores them as integers, so queries wouldn't show the actual string value but a number. However, I don't know
-how much friction or problems this behavior might generate, so I'm willing to explore and get hands-on experience on why (or why not) should I use it. 
-
-One last argument against `ENUM` is that if need to modify or add a value, this would block operations in that column. I'm assuming the `state` for ovens is 
+One argument against `ENUM` is that if needed to modify or add a value, this would block operations in that column. I'm assuming the `state` for ovens is 
 not going to change, and even if hypothetically the business needs to add a new *state*, this can be safely done in off-hours. 
 
 ### On using `UUID` instead of `INT` in some columns
@@ -22,3 +19,14 @@ not going to change, and even if hypothetically the business needs to add a new 
 This provides a huge benefit when trying to create concurrent many orders in a same table, or when different servers are trying to do the same. If we used simple integer IDs, then
 each concurrent operation should wait for the database to give it its assigned ID. Furthermore, using sequential IDs leads to leak information: the number of orders, the next 
 order's ID, etc. Basically, in distributed systems, each node needs to create orders independently. 
+
+
+### PostgreSQL is Doing Too Much
+
+After a second analysis, I found out that PostgreSQL was doing the heavy work for me by using *triggers* and *stored procedures*. This means that my application is far from 
+being **technology independent**, we are tied to PosgreSQL. This is not bad in principle, because PosgreSQL and Go present a great blend of features and capabilities to handle 
+concurrent behavior efficiently. However, for the specific case of this project being built for an interview about Go, it'd be a better idea to do more stuff manually and reinvent
+the wheel in some aspects, so I can get more practice, and perhaps a deeper understanding to perform well during the interview. Moreover, the fact that the business rules would 
+be embedded also in the database it violates in someway the *hexagonal architecture* vision of the project. The database is going to be simply a place to store some tables with
+their respective relationships. The logic of how that information behaves and interact will be managed by Go, so later in an hypothetical scenario, we could change to another 
+relational database without too much problem. 
