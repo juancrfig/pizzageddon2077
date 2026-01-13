@@ -40,3 +40,11 @@ These are some rules about these entities:
 - An order has a duration.
 - Ovens randomly breakdown.
 - An order can only have one pizza. 
+
+#### The Container Diagram
+
+This is about taking the black-box we defined in the previous diagram, and identify the so-called **runtime units**, which are basically the independent services that the 
+black-box uses. In this case we have the main **Pizzeria Service**, the **Trauma Service**, and the **Relational Database**.
+
+#### The Components Diagram
+
