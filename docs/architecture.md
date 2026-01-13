@@ -9,6 +9,6 @@ must follow the *API* that the interface layer specifies. It's the gatekeeper an
 
 While researching with AI, it mentioned a concept that describes very well one of the big advantages of using *hexagonal architecture*: **Technology Independence**. 
 It seems that a well-designed architecture following this pattern, provides the *business layer* with independence regardless the tools being used. As long as the core logic, the
-problems the business is trying to solve don't change, this layer doesn't need to change.
+problems the business is trying to solve, doesn't change; this layer doesn't need to change.
 
 
